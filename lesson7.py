@@ -1,30 +1,21 @@
-import json
-keys = ['ingridient_name', 'quantity', 'measure', ]
-cook_book = {}
+def def_cook_book():
+    with open('recipes.txt', encoding='utf-8-sig') as f:
+        cook_book = {}
+        while True:
+            cook = f.readline().strip()
+            cook_book[cook] = []
+            count = f.readline().strip()
+            i = 0
+            while i < int(count):
+                a = f.readline().strip().split(' | ')
+                cook_book[cook].append({'ingredient_name': a[0], 'quantity': a[1],'measure': a[2]})
+                i += 1
+            if f.readline() == '\n':
+                continue
+            else:
+                break
+        return cook_book
 
-with open('recipes.txt' , encoding= 'utf-8') as text:
-    lines = []
-    for line in text:
-        line = line.strip()
-        if line:
-            lines.append(line)
-        continue
-    lines = iter(lines)
-
-
-    for name in lines:
-        cook_book[name] = []
-        num = next(lines)
-
-        for _ in range(int(num)):
-            sostav_line = next(lines)
-            ingrid = sostav_line.split(' | ')
-            z = zip(keys, ingrid)
-            sostav_dict = {k: v for (k, v) in z}
-            cook_book[name].append(sostav_dict)
-            continue
-        continue
-print(json.dumps(cook_book, indent=2, ensure_ascii=False))
 
 
 def get_shop_list_by_dishes(dishes, person_count):
